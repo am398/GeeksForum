@@ -11,11 +11,11 @@ const Navbar: React.FC = () => {
   return (
     <Flex bg="white" height="44px" padding="6px 12px" justify={{md:"space-between"}}>
       <Flex align="center" width={{base:"40px",md:"auto"}} mr={{base:0,md:2}}>
-        <Image src="/images/geek.png" alt="logo" height="30px" />
+        <Image src="/images/mainicon.jpg" alt="logo" height="40px" />
         <Image
-          src="/images/Geeks.png"
+          src="/images/maintext.jpg"
           alt="text"
-          height="40px"
+          height="30px"
           display={{ base: "none", md: "unset" }}
         />
       </Flex>

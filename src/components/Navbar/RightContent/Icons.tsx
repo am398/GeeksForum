@@ -20,7 +20,7 @@ const ActionIcons: React.FC<ActionIconsProps> = () => {
         borderRight="1px solid"
         borderColor="gray.200"
       >
-        <Flex
+        {/* <Flex
           mr={1.5}
           ml={1.5}
           padding={1}
@@ -29,8 +29,8 @@ const ActionIcons: React.FC<ActionIconsProps> = () => {
           _hover={{ bg: "gray.200" }}
         >
           <Icon as={BsArrowUpRightCircle} fontSize={20} />
-        </Flex>
-        <Flex
+        </Flex> */}
+        {/* <Flex
           mr={1.5}
           ml={1.5}
           padding={1}
@@ -39,7 +39,7 @@ const ActionIcons: React.FC<ActionIconsProps> = () => {
           _hover={{ bg: "gray.200" }}
         >
           <Icon as={IoFilterCircleOutline} fontSize={22} />
-        </Flex>
+        </Flex> */}
         <Flex
           mr={1.5}
           ml={1.5}

@@ -50,10 +50,10 @@ const Directory: React.FC<DirectoryProps> = () => {
         </Flex>
       </MenuButton>
       <MenuList width="100%">
-        <Communities/>
+        <Communities />
         {/* <> */}
-          {/* <Flex direction="column" mt={2} mb={4}> */}
-          {/* <Text pl={3} fontSize="7pt" fontWeight={500} color="gray.500">
+        {/* <Flex direction="column" mt={2} mb={4}> */}
+        {/* <Text pl={3} fontSize="7pt" fontWeight={500} color="gray.500">
             MY COMMUNITIES
           </Text>
           <MenuItem width="100%" fontSize="10pt" _hover={{ bg: "gray.100" }}>
@@ -62,8 +62,8 @@ const Directory: React.FC<DirectoryProps> = () => {
               Create Community
             </Flex>
           </MenuItem> */}
-          {/* </Flex> */}
-          {/* <Text pl={3} fontSize="7pt" fontWeight={500} color="gray.500">
+        {/* </Flex> */}
+        {/* <Text pl={3} fontSize="7pt" fontWeight={500} color="gray.500">
             FEEDS
           </Text>
           <MenuItem width="100%" fontSize="10pt" _hover={{ bg: "gray.100" }}>

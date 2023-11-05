@@ -17,18 +17,18 @@ export interface CommunitySnippet {
 }
 
 interface CommunityState {
-  [key: string]:
-    | CommunitySnippet[]
-    | { [key: string]: Community }
-    | Community
-    | boolean
-    | undefined;
+  // [key: string]:
+  //   | CommunitySnippet[]
+  //   | { [key: string]: Community }
+  //   | Community
+  //   | boolean
+  //   | undefined;
   mySnippets: CommunitySnippet[];
-  initSnippetsFetched: boolean;
-  visitedCommunities: {
-    [key: string]: Community;
-  };
-  currentCommunity: Community;
+  // initSnippetsFetched: boolean;
+  // visitedCommunities: {
+  //   [key: string]: Community;
+  // };
+  // currentCommunity: Community;
 }
 
 export const defaultCommunity: Community = {
@@ -40,9 +40,9 @@ export const defaultCommunity: Community = {
 
 export const defaultCommunityState: CommunityState = {
   mySnippets: [],
-  initSnippetsFetched: false,
-  visitedCommunities: {},
-  currentCommunity: defaultCommunity,
+  // initSnippetsFetched: false,
+  // visitedCommunities: {},
+  // currentCommunity: defaultCommunity,
 };
 
 export const communityState = atom<CommunityState>({

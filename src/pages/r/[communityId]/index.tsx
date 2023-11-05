@@ -5,14 +5,12 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState } from "recoil";
 import safeJsonStringify from "safe-json-stringify";
 import { Community, communityState } from "../../../atoms/communitiesAtom";
-// import About from "../../../components/Community/About";
-// import CommunityNotFound from "../../../components/Community/CommunityNotFound";
-// import CreatePostLink from "../../../components/Community/CreatePostLink";
-// import Header from "../../../components/Community/Header";
-// import PageContentLayout from "../../../components/Layout/PageContent";
-// import Posts from "../../../components/Post/Posts";
 import { auth, firestore } from "../../../firebase/clientApp";
 import CommunityNotFound from "../../../components/Community/NotFound";
+import Header from "../../../components/Community/Header";
+import PageContentLayout from "../../../components/Layout/PageContent";
+import CreatePostLink from "../../../components/Community/CreatePostLink";
+import Posts from "../../../components/Posts/Posts";
 
 interface CommunityPageProps {
   communityData: Community;
@@ -54,27 +52,24 @@ const CommunityPage: NextPage<CommunityPageProps> = ({communityData}) => {
   }
 
   return (
-    <div>
-        Welcome to {communityData.id}
-    </div>
-    // <>
-    //   <Header communityData={communityData} />
-    //   <PageContentLayout>
-    //     {/* Left Content */}
-    //     <>
-    //       <CreatePostLink />
-    //       <Posts
-    //         communityData={communityData}
-    //         userId={user?.uid}
-    //         loadingUser={loadingUser}
-    //       />
-    //     </>
-    //     {/* Right Content */}
-    //     <>
-    //       <About communityData={communityData} />
-    //     </>
-    //   </PageContentLayout>
-    // </>
+
+    <>
+      <Header communityData={communityData} />
+      <PageContentLayout>
+        <>
+          <CreatePostLink />
+          <Posts
+            communityData={communityData}
+            // userId={user?.uid}
+            // loadingUser={loadingUser}
+          />
+        </>
+        {/* Right Content */}
+        <>
+        <div>About the community</div>
+        </>
+      </PageContentLayout>
+    </>
   );
 };
 
