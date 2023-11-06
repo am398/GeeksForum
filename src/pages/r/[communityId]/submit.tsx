@@ -19,6 +19,8 @@ const CreateCommmunityPostPage: NextPage = () => {
   const communityStateValue = useRecoilValue(communityState);
   const { loading } = useCommunityData();
 
+  console.log("HERE IS COMMUNITY", communityStateValue.currentCommunity);
+
   /**
    * Not sure why not working
    * Attempting to redirect user if not authenticated

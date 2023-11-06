@@ -35,6 +35,7 @@ import CustomTabItem from "./TabItem";
 import TextInputs from "./PostForm/TextInputs";
 import ImageUpload from "./PostForm/ImageUpload";
 import { postState } from "../../atoms/postsAtom";
+import useSelectFile from "../../hooks/useSelectFile";
 
 const formTabs = [
   {
@@ -80,7 +81,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({
     title: "",
     body: "",
   });
-  const [selectedFile, setSelectedFile] = useState<string>();
+  const {selectedFile, setSelectedFile,onSelectFile}= useSelectFile();
   const selectFileRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -90,8 +91,6 @@ const NewPostForm: React.FC<NewPostFormProps> = ({
   const handleCreatePost = async () => {
     setLoading(true);
     const { communityId } = router.query;
-
-    console.log("Anuj Maurya");
 
     try {
       const postDocRef = await addDoc(collection(firestore, "posts"), {
@@ -121,7 +120,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({
       setError("Error creating post");
     }
     setLoading(false);
-    //       router.back();
+          router.back();
   };
 
   //   const handleCreatePost = async () => {
@@ -148,19 +147,6 @@ const NewPostForm: React.FC<NewPostFormProps> = ({
   //       }));
 
   //   };
-
-  const onSelectImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const reader = new FileReader();
-    if (event.target.files?.[0]) {
-      reader.readAsDataURL(event.target.files[0]);
-    }
-
-    reader.onload = (readerEvent) => {
-      if (readerEvent.target?.result) {
-        setSelectedFile(readerEvent.target?.result as string);
-      }
-    };
-  };
 
   const onTextChange = ({
     target: { name, value },
@@ -198,7 +184,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({
             setSelectedFile={setSelectedFile}
             setSelectedTab={setSelectedTab}
             selectFileRef={selectFileRef}
-            onSelectImage={onSelectImage}
+            onSelectImage={onSelectFile}
           />
         )}
       </Flex>

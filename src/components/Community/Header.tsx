@@ -27,37 +27,28 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
       <Flex justifyContent="center" bg="white" height="50%">
         <Flex width="95%" maxWidth="860px">
           {/* IMAGE URL IS ADDED AT THE VERY END BEFORE DUMMY DATA - USE ICON AT FIRST */}
-          {/* {communityStateValue.currentCommunity.imageURL ? (
+          {communityStateValue.currentCommunity?.imageURL ? (
             <Image
               borderRadius="full"
               boxSize="66px"
               src={communityStateValue.currentCommunity.imageURL}
-              alt="Dan Abramov"
+              alt="Anuj MAurya"
               position="relative"
               top={-3}
               color="blue.500"
               border="4px solid white"
             />
-          ) : ( */}
+          ) : (
            <Image
               borderRadius="full"
               boxSize="66px"
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0ekQOR4nB46RrJAMTqgek1bKMtGWNOlLQkoEsd5TVMW5ePx7O7zRdEcVHXqXOjwH8VPc&usqp=CAU"
-              alt="Dan Abramov"
+              alt="IMage"
               position="relative"
               top={-3}
               color="blue.500"
               border="4px solid white"
-            />
-            {/* <Icon
-              as={FaReddit}
-              fontSize={64}
-              position="relative"
-              top={-3}
-              color="blue.500"
-              border="4px solid white"
-              borderRadius="50%"
-            /> */}
+            />)}
 
           <Flex padding="10px 16px">
             <Flex direction="column" mr={6}>
@@ -65,7 +56,7 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
                 {communityData.id}
               </Text>
               <Text fontWeight={600} fontSize="10pt" color="gray.400">
-                r/{communityData.id}
+                {communityData.id}
               </Text>
             </Flex>
             <Flex>

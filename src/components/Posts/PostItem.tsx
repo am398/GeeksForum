@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
   Flex,
   Icon,
   Image,
@@ -26,34 +29,35 @@ import { Post } from "../../atoms/postsAtom";
 
 export type PostItemContentProps = {
   post: Post;
-//   onVote: (
-    // event: React.MouseEvent<SVGElement, MouseEvent>,
-    // post: Post,
-    // vote: number,
-    // communityId: string,
-    // postIdx?: number
-//   ) => void;
+  //   onVote: (
+  // event: React.MouseEvent<SVGElement, MouseEvent>,
+  // post: Post,
+  // vote: number,
+  // communityId: string,
+  // postIdx?: number
+  //   ) => void;
   onDeletePost: (post: Post) => Promise<boolean>;
   userIsCreator: boolean;
   onSelectPost?: (value: Post, postIdx: number) => void;
-//   router?: NextRouter;
-//   postIdx?: number; 
+  //   router?: NextRouter;
+  //   postIdx?: number;
   userVoteValue?: number;
-//   homePage?: boolean;
+  //   homePage?: boolean;
 };
 
 const PostItem: React.FC<PostItemContentProps> = ({
   post,
-//   postIdx,
-//   onVote,
+  //   postIdx,
+  //   onVote,
   onSelectPost,
-//   router,
+  //   router,
   onDeletePost,
   userVoteValue,
   userIsCreator,
-//   homePage,
+  //   homePage,
 }) => {
   const [loadingImage, setLoadingImage] = useState(true);
+  const [error, setError] = useState("");
   const [loadingDelete, setLoadingDelete] = useState(false);
   const singlePostView = !onSelectPost; // function not passed to [pid]
 
@@ -67,9 +71,9 @@ const PostItem: React.FC<PostItemContentProps> = ({
       if (!success) throw new Error("Failed to delete post");
 
       console.log("Post successfully deleted");
+      // router.back();
 
       // Could proably move this logic to onDeletePost function
-      if (router) router.back();
     } catch (error: any) {
       console.log("Error deleting post", error.message);
       /**
@@ -77,7 +81,7 @@ const PostItem: React.FC<PostItemContentProps> = ({
        * as item will be removed from DOM
        */
       setLoadingDelete(false);
-      // setError
+      setError(error.message);
     }
   };
 
@@ -89,7 +93,7 @@ const PostItem: React.FC<PostItemContentProps> = ({
       borderRadius={singlePostView ? "4px 4px 0px 0px" : 4}
       cursor={singlePostView ? "unset" : "pointer"}
       _hover={{ borderColor: singlePostView ? "none" : "gray.500" }}
-    //   onClick={onSelectPost}
+      //   onClick={onSelectPost}
     >
       <Flex
         direction="column"
@@ -106,7 +110,7 @@ const PostItem: React.FC<PostItemContentProps> = ({
           color={userVoteValue === 1 ? "brand.100" : "gray.400"}
           fontSize={22}
           cursor="pointer"
-        //   onClick={onVote}
+          //   onClick={onVote}
         />
         <Text fontSize="9pt" fontWeight={600}>
           {post.voteStatus}
@@ -120,10 +124,16 @@ const PostItem: React.FC<PostItemContentProps> = ({
           color={userVoteValue === -1 ? "#4379FF" : "gray.400"}
           fontSize={22}
           cursor="pointer"
-        //   onClick={onVote}
+            // onClick={onVote}
         />
       </Flex>
       <Flex direction="column" width="100%">
+        {error && (
+          <Alert status="error">
+            <AlertIcon />
+            <AlertTitle mr={2}>Error Creating The Post</AlertTitle>
+          </Alert>
+        )}
         <Stack spacing={1} p="10px 10px">
           {post.createdAt && (
             <Stack direction="row" spacing={0.6} align="center" fontSize="9pt">
@@ -139,23 +149,21 @@ const PostItem: React.FC<PostItemContentProps> = ({
                     />
                   ) 
                   :  */}
-                  <>
-                  (
-                    <Icon as={FaReddit} fontSize={18} mr={1} color="blue.500" />
-                  )
-                  {/* } */}
-                  <Link href={`r/${post.communityId}`}>
-                    <Text
-                      fontWeight={700}
-                      _hover={{ textDecoration: "underline" }}
-                      onClick={(event) => event.stopPropagation()}
-                    >{`r/${post.communityId}`}</Text>
-                  </Link>
-                  <Icon as={BsDot} color="gray.500" fontSize={8} />
-                </>)
-              
+              <>
+                (
+                {/* <Icon as={FaReddit} fontSize={18} mr={1} color="blue.500" />) */}
+                <Link href={`r/${post.communityId}`}>
+                  <Text
+                    fontWeight={800}
+                    _hover={{ textDecoration: "underline" }}
+                    onClick={(event) => event.stopPropagation()}
+                  >{post.communityId}</Text>
+                </Link>
+                <Icon as={BsDot} color="gray.500" fontSize={8} />
+              </>
+              )
               <Text color="gray.500">
-                Posted by u/{post.userDisplayText}{" "}
+                Posted by {post.userDisplayText}{" "}
                 {moment(new Date(post.createdAt.seconds * 1000)).fromNow()}
               </Text>
             </Stack>
@@ -166,8 +174,9 @@ const PostItem: React.FC<PostItemContentProps> = ({
           <Text fontSize="10pt">{post.body}</Text>
           {post.imageURL && (
             <Flex justify="center" align="center" p={2}>
-              {loadingImage && 
-              (<Skeleton height="200px" width="100%" borderRadius={4} />)}
+              {loadingImage && (
+                <Skeleton height="200px" width="100%" borderRadius={4} />
+              )}
               <Image
                 width="80%"
                 maxWidth="500px"

@@ -3,7 +3,7 @@ import { FieldValue, Timestamp } from "firebase/firestore";
 
 export interface Community {
   id: string;
-  creatorId: string;
+  createrID: string;
   numberOfMembers: number;
   privacyType: "public" | "restrictied" | "private";
   createdAt?: Timestamp;
@@ -28,12 +28,12 @@ interface CommunityState {
   // visitedCommunities: {
   //   [key: string]: Community;
   // };
-  // currentCommunity: Community;
+  currentCommunity?: Community;
 }
 
 export const defaultCommunity: Community = {
   id: "",
-  creatorId: "",
+  createrID: "",
   numberOfMembers: 0,
   privacyType: "public",
 };

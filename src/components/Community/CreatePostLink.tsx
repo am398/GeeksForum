@@ -9,6 +9,7 @@ import { IoImageOutline } from "react-icons/io5";
 import { auth } from "../../firebase/clientApp";
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "../../atoms/authModalAtom";
+import { BiSolidBarChartAlt2 } from "react-icons/bi";
 
 type CreatePostProps = {};
 
@@ -37,7 +38,7 @@ const CreatePostLink: React.FC= () => {
       p={2}
       mb={4}
     >
-      <Icon as={FaReddit} fontSize={36} color="gray.300" mr={4} />
+      <Icon as={BiSolidBarChartAlt2} fontSize={36} color="gray.300" mr={4} />
       <Input
         placeholder="Create Post"
         fontSize="10pt"

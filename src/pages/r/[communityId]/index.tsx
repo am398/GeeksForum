@@ -11,6 +11,7 @@ import Header from "../../../components/Community/Header";
 import PageContentLayout from "../../../components/Layout/PageContent";
 import CreatePostLink from "../../../components/Community/CreatePostLink";
 import Posts from "../../../components/Posts/Posts";
+import About from "../../../components/Community/About";
 
 interface CommunityPageProps {
   communityData: Community;
@@ -20,8 +21,8 @@ const CommunityPage: NextPage<CommunityPageProps> = ({communityData}) => {
   console.log(communityData);
   // const [user, loadingUser] = useAuthState(auth);
 
-  // const [communityStateValue, setCommunityStateValue] =
-  //   useRecoilState(communityState);
+
+  const [communityStateValue, setCommunityStateValue] = useRecoilState(communityState);
 
   // useEffect(() => {
   //   // First time the user has navigated to this community page during session - add to cache
@@ -39,17 +40,18 @@ const CommunityPage: NextPage<CommunityPageProps> = ({communityData}) => {
   //   }
   // }, [communityData]);
 
-  // useEffect(() => {
-  //   setCommunityStateValue((prev) => ({
-  //     ...prev,
-  //     currentCommunity: communityData,
-  //   }));
-  // }, [communityData, setCommunityStateValue]);
+  useEffect(() => {
+    setCommunityStateValue((prev) => ({
+      ...prev,
+      currentCommunity: communityData,
+    }));
+  }, [communityData, setCommunityStateValue]);
 
-  // Community was not found in the database
   if (!communityData) {
     return <CommunityNotFound />;
   }
+
+  // Community was not found in the database
 
   return (
 
@@ -66,7 +68,7 @@ const CommunityPage: NextPage<CommunityPageProps> = ({communityData}) => {
         </>
         {/* Right Content */}
         <>
-        <div>About the community</div>
+        <About communityData={communityData}/>
         </>
       </PageContentLayout>
     </>
