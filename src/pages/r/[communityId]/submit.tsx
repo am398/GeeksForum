@@ -10,13 +10,15 @@ import PageContentLayout from "../../../components/Layout/PageContent";
 import { auth } from "../../../firebase/clientApp";
 import useCommunityData from "../../../hooks/useCommunityData";
 import NewPostForm from "../../../components/Posts/NewPostForm";
+import About from "../../../components/Community/About";
 
 const CreateCommmunityPostPage: NextPage = () => {
   const [user] = useAuthState(auth);
   const router = useRouter();
   const { community } = router.query;
   // const visitedCommunities = useRecoilValue(communityState).visitedCommunities;
-  const communityStateValue = useRecoilValue(communityState);
+  // const communityStateValue = useRecoilValue(communityState);
+  const { communityStateValue } = useCommunityData();
   const { loading } = useCommunityData();
 
   console.log("HERE IS COMMUNITY", communityStateValue.currentCommunity);
@@ -36,7 +38,6 @@ const CreateCommmunityPostPage: NextPage = () => {
   return (
     <PageContentLayout>
       <>
-
         <Box p="14px 0px" borderBottom="1px solid" borderColor="white">
           <Text fontWeight={600}>Create a post</Text>
         </Box>
@@ -50,12 +51,14 @@ const CreateCommmunityPostPage: NextPage = () => {
       </>
       {/* {communityStateValue.currentCommunity && ( */}
       <>
-        {/* <About
+        {communityStateValue.currentCommunity && (
+          <About
             communityData={communityStateValue.currentCommunity}
             pt={6}
             onCreatePage
             loading={loading}
-          /> */}
+          />
+        )}
       </>
     </PageContentLayout>
   );

@@ -12,9 +12,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import moment from "moment";
-import router, { NextRouter } from "next/router";
+import router, { NextRouter, useRouter } from "next/router";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsChat, BsDot } from "react-icons/bs";
+import { PiArrowFatLineDownFill, PiArrowFatLineUpFill } from "react-icons/pi";
 import { FaReddit } from "react-icons/fa";
 import {
   IoArrowDownCircleOutline,
@@ -26,19 +27,20 @@ import {
 } from "react-icons/io5";
 import Link from "next/link";
 import { Post } from "../../atoms/postsAtom";
+import { on } from "events";
 
 export type PostItemContentProps = {
   post: Post;
-  //   onVote: (
-  // event: React.MouseEvent<SVGElement, MouseEvent>,
-  // post: Post,
-  // vote: number,
-  // communityId: string,
-  // postIdx?: number
-  //   ) => void;
+  onVote: (
+    event: React.MouseEvent<SVGElement, MouseEvent>,
+    post: Post,
+    vote: number,
+    communityId: string
+    // postIdx?: number
+  ) => void;
   onDeletePost: (post: Post) => Promise<boolean>;
   userIsCreator: boolean;
-  onSelectPost?: (value: Post, postIdx: number) => void;
+  onSelectPost?: (value: Post) => void;
   //   router?: NextRouter;
   //   postIdx?: number;
   userVoteValue?: number;
@@ -48,7 +50,7 @@ export type PostItemContentProps = {
 const PostItem: React.FC<PostItemContentProps> = ({
   post,
   //   postIdx,
-  //   onVote,
+  onVote,
   onSelectPost,
   //   router,
   onDeletePost,
@@ -59,7 +61,8 @@ const PostItem: React.FC<PostItemContentProps> = ({
   const [loadingImage, setLoadingImage] = useState(true);
   const [error, setError] = useState("");
   const [loadingDelete, setLoadingDelete] = useState(false);
-  const singlePostView = !onSelectPost; // function not passed to [pid]
+  const singlePostView = !onSelectPost;
+  const router = useRouter();
 
   const handleDelete = async (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -72,6 +75,11 @@ const PostItem: React.FC<PostItemContentProps> = ({
 
       console.log("Post successfully deleted");
       // router.back();
+
+      if (singlePostView) {
+        router.push(`/r/${post.communityId}`);
+        // { pathname: `/r/${post.communityId}`, query: { pid: post.id } }
+      }
 
       // Could proably move this logic to onDeletePost function
     } catch (error: any) {
@@ -90,10 +98,10 @@ const PostItem: React.FC<PostItemContentProps> = ({
       border="1px solid"
       bg="white"
       borderColor={singlePostView ? "white" : "gray.300"}
-      borderRadius={singlePostView ? "4px 4px 0px 0px" : 4}
+      borderRadius={singlePostView ? "4px 4px 0px 0px" : "4px"}
       cursor={singlePostView ? "unset" : "pointer"}
       _hover={{ borderColor: singlePostView ? "none" : "gray.500" }}
-      //   onClick={onSelectPost}
+      onClick={() => onSelectPost && onSelectPost(post)}
     >
       <Flex
         direction="column"
@@ -104,13 +112,11 @@ const PostItem: React.FC<PostItemContentProps> = ({
         borderRadius={singlePostView ? "0" : "3px 0px 0px 3px"}
       >
         <Icon
-          as={
-            userVoteValue === 1 ? IoArrowUpCircleSharp : IoArrowUpCircleOutline
-          }
+          as={userVoteValue === 1 ? PiArrowFatLineUpFill : PiArrowFatLineUpFill}
           color={userVoteValue === 1 ? "brand.100" : "gray.400"}
           fontSize={22}
           cursor="pointer"
-          //   onClick={onVote}
+          onClick={(event) => onVote(event, post, 1, post.communityId)}
         />
         <Text fontSize="9pt" fontWeight={600}>
           {post.voteStatus}
@@ -118,13 +124,13 @@ const PostItem: React.FC<PostItemContentProps> = ({
         <Icon
           as={
             userVoteValue === -1
-              ? IoArrowDownCircleSharp
-              : IoArrowDownCircleOutline
+              ? PiArrowFatLineDownFill
+              : PiArrowFatLineDownFill
           }
           color={userVoteValue === -1 ? "#4379FF" : "gray.400"}
           fontSize={22}
           cursor="pointer"
-            // onClick={onVote}
+          onClick={(event) => onVote(event, post, -1, post.communityId)}
         />
       </Flex>
       <Flex direction="column" width="100%">
@@ -157,7 +163,9 @@ const PostItem: React.FC<PostItemContentProps> = ({
                     fontWeight={800}
                     _hover={{ textDecoration: "underline" }}
                     onClick={(event) => event.stopPropagation()}
-                  >{post.communityId}</Text>
+                  >
+                    {post.communityId}
+                  </Text>
                 </Link>
                 <Icon as={BsDot} color="gray.500" fontSize={8} />
               </>

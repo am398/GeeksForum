@@ -19,7 +19,7 @@ interface CommunityPageProps {
 
 const CommunityPage: NextPage<CommunityPageProps> = ({communityData}) => {
   console.log(communityData);
-  // const [user, loadingUser] = useAuthState(auth);
+  const [user, loadingUser] = useAuthState(auth);
 
 
   const [communityStateValue, setCommunityStateValue] = useRecoilState(communityState);

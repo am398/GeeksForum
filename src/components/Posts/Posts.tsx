@@ -28,14 +28,12 @@ type PostsProps = {
 };
 
 const Posts: React.FC<PostsProps> = ({ communityData }) => {
-  console.log("Anuj Maurya");
-
   const [user] = useAuthState(auth);
 
   const [loading, setLoading] = useState(false);
   // const setAuthModalState = useSetRecoilState(authModalState);
   const router = useRouter();
-
+  // postIdx?: number
   const { postStateValue, setPostStateValue, onVote, onDeletePost } = usePosts(
     communityData!
   );
@@ -163,10 +161,10 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
   //   }
   // };
 
-  const onSelectPost = (post: Post, postIdx: number) => {
+  const onSelectPost = (post: Post) => {
     setPostStateValue((prev) => ({
       ...prev,
-      selectedPost: { ...post, postIdx },
+      selectedPost:post,
     }));
     router.push(`/r/${communityData?.id!}/comments/${post.id}`);
   };
@@ -259,12 +257,11 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
               key={post.id}
               post={post}
               // postIdx={index}
-              // onVote={onVote}
+              onVote={onVote}
               onDeletePost={onDeletePost}
               userVoteValue={
-                undefined
-                // postStateValue.postVotes.find((item) => item.postId === post.id)
-                //   ?.voteValue
+                postStateValue.postVotes.find((item) => item.postId === post.id)
+                  ?.voteValue
               }
               userIsCreator={user?.uid === post.creatorId}
               onSelectPost={onSelectPost}

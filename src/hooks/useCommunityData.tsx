@@ -42,7 +42,7 @@ const useCommunityData = (ssrCommunityData?: boolean) => {
         ...prev,
         mySnippets: snippets as CommunitySnippet[],
       }));
-      console.log("anuj",snippets)
+      console.log("anuj", snippets);
       setLoading(false);
     } catch (error: any) {
       console.log("Error getting user snippets", error);
@@ -51,12 +51,28 @@ const useCommunityData = (ssrCommunityData?: boolean) => {
     setLoading(false);
   };
   useEffect(() => {
-    if (!user || !!communityStateValue.mySnippets.length) return;
+    if (!user || !!communityStateValue.mySnippets.length) {
+      // setCommunityStateValue((prev) => ({
+      //   ...prev,
+      //   mySnippets: [],
+      // }));
+      return;
+    }
     getSnippets();
   }, [user]);
 
+  useEffect(() => {
+    const { communityId } = router.query;
+    if (communityId && !communityStateValue.currentCommunity) {
+      getCommunityData(communityId as string);
+    }
+  }, [router.query, communityStateValue.currentCommunity]);
+  
+
+
+
   const getCommunityData = async (communityId: string) => {
-    // setLoading(true);
+    setLoading(true);
     console.log("GETTING COMMUNITY DATA");
 
     try {
@@ -115,11 +131,7 @@ const useCommunityData = (ssrCommunityData?: boolean) => {
         imageURL: community.imageURL || "",
       };
       batch.set(
-        doc(
-          firestore,
-          `users/${user?.uid}/communitySnippets`,
-          community.id
-        ),
+        doc(firestore, `users/${user?.uid}/communitySnippets`, community.id),
         newSnippet
       );
 
@@ -174,7 +186,7 @@ const useCommunityData = (ssrCommunityData?: boolean) => {
   //     if (!communityData) {
   //       getCommunityData(community as string);
   //       return;
-  //     }
+  //     } 
   //   }
   // }, [router.query]);
 
