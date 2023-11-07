@@ -15,17 +15,13 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import {
-  doc,
-  runTransaction,
-  serverTimestamp
-} from "firebase/firestore";
+import { doc, runTransaction, serverTimestamp } from "firebase/firestore";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { BsFillEyeFill, BsFillPersonFill } from "react-icons/bs";
 import { RiGitRepositoryPrivateLine } from "react-icons/ri";
 import { auth, firestore } from "../../../firebase/clientApp";
-import SignUp from '../Auth/SignUp';
+import SignUp from "../Auth/SignUp";
 
 type CreateCommunityModalProps = {
   open: boolean;
@@ -54,14 +50,14 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
   };
 
   const handleCreateCommunity = async () => {
-    console.log("Create Community");
+    console.log("Create Course");
     const format = /[`!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (format.test(communityName)) {
-      setError("Community name can not contain special characters");
+      setError("CourseName can not contain special characters");
       return;
     }
     if (communityName.length < 3) {
-      setError("Community name must be in between 3-20");
+      setError("CourseName must be in between 3-20");
       return;
     }
 
@@ -70,7 +66,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
       await runTransaction(firestore, async (transaction) => {
         const communityDoc = await transaction.get(communityDocRef);
         if (communityDoc.exists()) {
-          throw new Error("Community name already exists.Try Another name");
+          throw new Error("CourseName already exists.Try Another name");
         }
         transaction.set(communityDocRef, {
           createrID: user?.uid,
@@ -105,16 +101,16 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
             fontSize={15}
             padding={3}
           >
-            Create a Community
+            Create a Course
           </ModalHeader>
           <Box pl={3} pr={3}>
             <ModalCloseButton />
             <ModalBody display="flex" flexDirection="column" padding="10px 0px">
               <Text fontWeight={600} fontSize={15}>
-                Community Name
+                CourseName
               </Text>
               <Text fontSize="15px" fontWeight={11} color="gray.500">
-                Enter Your Community Name
+                Enter Your Course Name
               </Text>
               {/* <Text
                 position="relative"
@@ -143,7 +139,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
               </Text>
               <Box mt={4} mb={4}>
                 <Text fontWeight={600} fontSize={15}>
-                  Community Type
+                  Type of The Course
                 </Text>
                 <Stack>
                   <Checkbox
@@ -215,7 +211,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
               onClick={handleCreateCommunity}
               isLoading={loading}
             >
-              Create Community
+              Create Course
             </Button>
           </ModalFooter>
         </ModalContent>

@@ -75,10 +75,6 @@ const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
     setImageLoading(false);
   };
 
-  console.log("communityData true or not");
-  console.log(user?.uid);
-  console.log(communityData);
-
   return (
     <Box pt={pt} position="sticky" top="14px">
       <Flex
@@ -90,7 +86,7 @@ const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
         borderRadius="4px 4px 0px 0px"
       >
         <Text fontSize="10pt" fontWeight={700}>
-          About Community
+          About Course
         </Text>
         <Icon as={HiOutlineDotsHorizontal} cursor="pointer" />
       </Flex>

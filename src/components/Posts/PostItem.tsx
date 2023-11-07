@@ -16,7 +16,7 @@ import router, { NextRouter, useRouter } from "next/router";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsChat, BsDot } from "react-icons/bs";
 import { PiArrowFatLineDownFill, PiArrowFatLineUpFill } from "react-icons/pi";
-import { FaReddit } from "react-icons/fa";
+import { RiCommunityLine } from "react-icons/ri";
 import {
   IoArrowDownCircleOutline,
   IoArrowDownCircleSharp,
@@ -44,7 +44,7 @@ export type PostItemContentProps = {
   //   router?: NextRouter;
   //   postIdx?: number;
   userVoteValue?: number;
-  //   homePage?: boolean;
+  homePage?: boolean;
 };
 
 const PostItem: React.FC<PostItemContentProps> = ({
@@ -56,7 +56,7 @@ const PostItem: React.FC<PostItemContentProps> = ({
   onDeletePost,
   userVoteValue,
   userIsCreator,
-  //   homePage,
+  homePage,
 }) => {
   const [loadingImage, setLoadingImage] = useState(true);
   const [error, setError] = useState("");
@@ -84,10 +84,7 @@ const PostItem: React.FC<PostItemContentProps> = ({
       // Could proably move this logic to onDeletePost function
     } catch (error: any) {
       console.log("Error deleting post", error.message);
-      /**
-       * Don't need to setLoading false if no error
-       * as item will be removed from DOM
-       */
+
       setLoadingDelete(false);
       setError(error.message);
     }
@@ -143,8 +140,8 @@ const PostItem: React.FC<PostItemContentProps> = ({
         <Stack spacing={1} p="10px 10px">
           {post.createdAt && (
             <Stack direction="row" spacing={0.6} align="center" fontSize="9pt">
-              {/* {homePage && (
-                
+              {homePage && (
+                <>
                   {post.communityImageURL ? (
                     <Image
                       alt="ok"
@@ -153,23 +150,22 @@ const PostItem: React.FC<PostItemContentProps> = ({
                       src={post.communityImageURL}
                       mr={2}
                     />
-                  ) 
-                  :  */}
-              <>
-                (
-                {/* <Icon as={FaReddit} fontSize={18} mr={1} color="blue.500" />) */}
-                <Link href={`r/${post.communityId}`}>
-                  <Text
-                    fontWeight={800}
-                    _hover={{ textDecoration: "underline" }}
-                    onClick={(event) => event.stopPropagation()}
-                  >
-                    {post.communityId}
-                  </Text>
-                </Link>
-                <Icon as={BsDot} color="gray.500" fontSize={8} />
-              </>
-              )
+                  ) : (
+                    <Icon as={RiCommunityLine} fontSize={18} mr={1} color="blue.500" />
+                  )}
+
+                  <Link href={`r/${post.communityId}`}>
+                    <Text
+                      fontWeight={800}
+                      _hover={{ textDecoration: "underline" }}
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      {post.communityId}
+                    </Text>
+                  </Link>
+                  <Icon as={BsDot} color="gray.500" fontSize={8} />
+                </>
+              )}
               <Text color="gray.500">
                 Posted by {post.userDisplayText}{" "}
                 {moment(new Date(post.createdAt.seconds * 1000)).fromNow()}

@@ -214,7 +214,6 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
   // }, [communityData, postStateValue.postUpdateRequired]);
 
   const getPosts = async () => {
-    console.log("WE ARE GETTING POSTS!!!");
 
     setLoading(true);
     try {

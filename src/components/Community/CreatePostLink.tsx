@@ -10,21 +10,27 @@ import { auth } from "../../firebase/clientApp";
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "../../atoms/authModalAtom";
 import { BiSolidBarChartAlt2 } from "react-icons/bi";
+import useDirectory from "../../hooks/useDirectory";
 
 type CreatePostProps = {};
 
-const CreatePostLink: React.FC= () => {
+const CreatePostLink: React.FC = () => {
   const router = useRouter();
-  const [user]= useAuthState(auth);
-  const setAuthModalState=useSetRecoilState(authModalState);
+  const [user] = useAuthState(auth);
+  const setAuthModalState = useSetRecoilState(authModalState);
+  const { toggleMenuOpen } = useDirectory();
   const onClick = () => {
     const { community } = router.query;
     if (!user) {
-        setAuthModalState({open:true,view:"login"});
-        return;
+      setAuthModalState({ open: true, view: "login" });
+      return;
     }
-    const {communityId}=router.query;
-    router.push(`/r/${communityId}/submit`);
+    const { communityId } = router.query;
+    if (communityId) {
+      router.push(`/r/${communityId}/submit`);
+      return;
+    }
+    toggleMenuOpen();
   };
   return (
     <Flex

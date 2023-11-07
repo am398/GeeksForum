@@ -42,7 +42,6 @@ const useCommunityData = (ssrCommunityData?: boolean) => {
         ...prev,
         mySnippets: snippets as CommunitySnippet[],
       }));
-      console.log("anuj", snippets);
       setLoading(false);
     } catch (error: any) {
       console.log("Error getting user snippets", error);
@@ -67,9 +66,6 @@ const useCommunityData = (ssrCommunityData?: boolean) => {
       getCommunityData(communityId as string);
     }
   }, [router.query, communityStateValue.currentCommunity]);
-  
-
-
 
   const getCommunityData = async (communityId: string) => {
     setLoading(true);
@@ -129,6 +125,7 @@ const useCommunityData = (ssrCommunityData?: boolean) => {
       const newSnippet: CommunitySnippet = {
         communityId: community.id,
         imageURL: community.imageURL || "",
+        isModerator: user?.uid === community.createrID,
       };
       batch.set(
         doc(firestore, `users/${user?.uid}/communitySnippets`, community.id),
@@ -186,7 +183,7 @@ const useCommunityData = (ssrCommunityData?: boolean) => {
   //     if (!communityData) {
   //       getCommunityData(community as string);
   //       return;
-  //     } 
+  //     }
   //   }
   // }, [router.query]);
 

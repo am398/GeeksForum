@@ -7,6 +7,7 @@ import {
   Menu,
   MenuButton,
   MenuItem,
+  Image,
   MenuList,
   Text,
 } from "@chakra-ui/react";
@@ -14,13 +15,15 @@ import { CgProfile } from "react-icons/cg";
 import { MdOutlineLogin } from "react-icons/md";
 import { GrAdd } from "react-icons/gr";
 import { TiHome } from "react-icons/ti";
+import useDirectory from "../../../hooks/useDirectory";
 import Communities from "./Communities";
 
 type DirectoryProps = {};
 
 const Directory: React.FC<DirectoryProps> = () => {
+  const { directoryState, toggleMenuOpen } = useDirectory();
   return (
-    <Menu>
+    <Menu isOpen={directoryState.isOpen}>
       <MenuButton
         cursor="pointer"
         padding="0px 6px"
@@ -28,6 +31,7 @@ const Directory: React.FC<DirectoryProps> = () => {
         _hover={{ outline: "1px solid", outlineColor: "gray.200" }}
         mr={2}
         ml={2}
+        onClick={toggleMenuOpen}
       >
         <Flex
           alignItems="center"
@@ -36,13 +40,33 @@ const Directory: React.FC<DirectoryProps> = () => {
         >
           <Flex alignItems="center">
             <>
-              <Icon fontSize={24} mr={{ base: 1, md: 2 }} as={TiHome} />
+              {directoryState.selectedMenuItem.imageURL ? (
+                <Image
+                  mr={2}
+                  alt="photo"
+                  borderRadius="full"
+                  boxSize="24px"
+                  src={directoryState.selectedMenuItem.imageURL}
+                  color="blue.500"
+                />
+              ) : (
+                <Icon
+                  fontSize={24}
+                  mr={{ base: 1, md: 2 }}
+                  as={directoryState.selectedMenuItem.icon}
+                  color={directoryState.selectedMenuItem.iconColor}
+                />
+              )}
+
+              {/* <Icon fontSize={24} mr={{ base: 1, md: 2 }} as={TiHome} /> */}
               <Box
                 display={{ base: "none", lg: "flex" }}
                 flexDirection="column"
                 fontSize="10pt"
               >
-                <Text fontWeight={600}>Home</Text>
+                <Text fontWeight={600}>
+                  {directoryState.selectedMenuItem.displayText}
+                </Text>
               </Box>
             </>
           </Flex>
