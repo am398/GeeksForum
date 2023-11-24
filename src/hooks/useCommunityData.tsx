@@ -41,6 +41,7 @@ const useCommunityData = (ssrCommunityData?: boolean) => {
       setCommunityStateValue((prev) => ({
         ...prev,
         mySnippets: snippets as CommunitySnippet[],
+        initSnippetsFetched: true,
       }));
       setLoading(false);
     } catch (error: any) {
@@ -51,10 +52,11 @@ const useCommunityData = (ssrCommunityData?: boolean) => {
   };
   useEffect(() => {
     if (!user || !!communityStateValue.mySnippets.length) {
-      // setCommunityStateValue((prev) => ({
-      //   ...prev,
-      //   mySnippets: [],
-      // }));
+      setCommunityStateValue((prev) => ({
+        ...prev,
+        mySnippets: [],
+        initSnippetsFetched: false,
+      }));
       return;
     }
     getSnippets();

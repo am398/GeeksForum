@@ -22,6 +22,8 @@ import { BsFillEyeFill, BsFillPersonFill } from "react-icons/bs";
 import { RiGitRepositoryPrivateLine } from "react-icons/ri";
 import { auth, firestore } from "../../../firebase/clientApp";
 import SignUp from "../Auth/SignUp";
+import { useRouter } from "next/router";
+import useDirectory from "../../../hooks/useDirectory";
 
 type CreateCommunityModalProps = {
   open: boolean;
@@ -32,6 +34,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
   open,
   handleClose,
 }) => {
+  const router = useRouter();
   const [user] = useAuthState(auth);
   const [communityName, setCommunityName] = useState("");
   const [charsRemaining, setCharsRemaining] = useState(20);
@@ -39,10 +42,12 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value.length > 20) return;
+    if (event.target.value.length > 50) return;
     setCommunityName(event.target.value);
-    setCharsRemaining(20 - communityName.length);
+    setCharsRemaining(50 - communityName.length);
   };
+
+  const { toggleMenuOpen } = useDirectory();
 
   const onCommunityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.name);
@@ -82,6 +87,11 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
           }
         );
       });
+
+      handleClose();
+      toggleMenuOpen();
+
+      router.push(`/r/${communityName}`);
     } catch (error: any) {
       console.log("Handle Create Community Error", error);
       setError(error.message);

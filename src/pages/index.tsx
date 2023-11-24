@@ -1,23 +1,3 @@
-// import type { NextPage } from "next";
-// import { Flex, Image } from "@chakra-ui/react";
-
-// const Home: NextPage = () => {
-//   return (
-//     <div>
-//       <Image
-//         align="center"
-//         src="https://lh3.googleusercontent.com/p/AF1QipPwc337BeMEFWeh66cFkpwWH0bJ1NFHknNvG42Y=s680-w680-h510"
-//         alt="Snu Image"
-//         height="70%"
-//         width="100%"
-
-//       />
-//     </div>
-//   );
-// };
-
-// export default Home;
-
 import { useEffect } from "react";
 import { Box, Stack } from "@chakra-ui/react";
 import {
@@ -45,6 +25,8 @@ import PostLoader from "../components/Posts/PostLoader";
 import PostItem from "../components/Posts/PostItem";
 import { Image } from "@chakra-ui/react";
 import { get } from "http";
+import Recommendations from "../components/Community/Recommendations";
+import PersonalHome from "../components/Community/PersonalHome";
 
 const Home: NextPage = () => {
   const [user, loadingUser] = useAuthState(auth);
@@ -139,24 +121,17 @@ const Home: NextPage = () => {
     return () => unsubscribe();
   };
 
-  // useEffect(() => {
-  //   /**
-  //    * initSnippetsFetched ensures that user snippets have been retrieved;
-  //    * the value is set to true when snippets are first retrieved inside
-  //    * of getSnippets in useCommunityData
-  //    */
-  //   if (!communityStateValue.initSnippetsFetched) return;
-
-  //   if (user) {
-  //     getUserHomePosts();
-  //   }
-  // }, [user, communityStateValue.initSnippetsFetched]);
-
   useEffect(() => {
     if (!user && !loadingUser) {
       getNoUserHomePosts();
     }
   }, [user, loadingUser]);
+
+  useEffect(() => {
+    if (communityStateValue.initSnippetsFetched) {
+      getUserHomePosts();
+    }
+  }, [user, communityStateValue.initSnippetsFetched]);
 
   useEffect(() => {
     if (!user?.uid || !postStateValue.posts.length) return;
@@ -172,49 +147,48 @@ const Home: NextPage = () => {
   }, [postStateValue.posts, user?.uid]);
 
   return (
-    // <div
-    //   style={{
-    //     backgroundImage: `url("https://lh3.googleusercontent.com/p/AF1QipPwc337BeMEFWeh66cFkpwWH0bJ1NFHknNvG42Y=s680-w680-h510")`,
-    //     backgroundRepeat: "no-repeat",
-    //     backgroundSize: "cover",
-    //     width: "100%",
-    //     height: "100%",
-    //   }}
-    // >
-    <PageContentLayout>
-      <>
-        <CreatePostLink />
-        {loading ? (
-          <PostLoader />
-        ) : (
-          <Stack>
-            {postStateValue.posts.map((post: Post, index) => (
-              <PostItem
-                key={post.id}
-                post={post}
-                // postIdx={index}
-                onVote={onVote}
-                onDeletePost={onDeletePost}
-                userVoteValue={
-                  postStateValue.postVotes.find(
-                    (item) => item.postId === post.id
-                  )?.voteValue
-                }
-                userIsCreator={user?.uid === post.creatorId}
-                onSelectPost={onSelectPost}
-                homePage
-              />
-            ))}
-          </Stack>
-        )}
-      </>
-      <Stack spacing={5} position="sticky" top="14px">
-        {/* <Recommendations />
-        <Premium />
-        <PersonalHome /> */}
-      </Stack>
-    </PageContentLayout>
-    // </div>
+    <div
+      style={{
+        backgroundImage: `url("https://lh3.googleusercontent.com/p/AF1QipPwc337BeMEFWeh66cFkpwWH0bJ1NFHknNvG42Y=s680-w680-h510")`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        width: "100%",
+        height: "100%",
+      }}
+    >
+      <PageContentLayout>
+        <>
+          <CreatePostLink />
+          {loading ? (
+            <PostLoader />
+          ) : (
+            <Stack>
+              {postStateValue.posts.map((post: Post, index) => (
+                <PostItem
+                  key={post.id}
+                  post={post}
+                  // postIdx={index}
+                  onVote={onVote}
+                  onDeletePost={onDeletePost}
+                  userVoteValue={
+                    postStateValue.postVotes.find(
+                      (item) => item.postId === post.id
+                    )?.voteValue
+                  }
+                  userIsCreator={user?.uid === post.creatorId}
+                  onSelectPost={onSelectPost}
+                  homePage
+                />
+              ))}
+            </Stack>
+          )}
+        </>
+        <Stack spacing={5} position="sticky" top="14px">
+          <Recommendations />
+          <PersonalHome />
+        </Stack>
+      </PageContentLayout>
+    </div>
   );
 };
 
